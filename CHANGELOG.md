@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-08-14
+
+### Added
+
+- Plugin icon for Dalamud installer and in-game plugin list.
+
+### Changed
+
+- Point installer screenshot (`ImageUrls`) at the `main` branch.
+- Clarify README setup, modules, and party-list wording.
+
 ## [1.0.1] - 2026-08-14
 
 ### Added
@@ -24,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Preview overlay: party seats × hotbars and which source is driving highlights (close with ×).
 - Per-rule outline colors (Near/Far World red, Dynamis stacks purple, Remaining yellow; reload resets to defaults).
 
-[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/exatrines/Goetia/releases/tag/v1.0.2
 [1.0.1]: https://github.com/exatrines/Goetia/releases/tag/v1.0.1
 [1.0.0]: https://github.com/exatrines/Goetia/releases/tag/v1.0.0

@@ -4,10 +4,11 @@
   "Punchline": "Manual mark assist via party-aligned hotbar highlights.",
   "Description": "Highlights mark-macro hotbar slots by party order for manual marking.",
   "InternalName": "Goetia",
-  "AssemblyVersion": "1.0.1.0",
+  "AssemblyVersion": "1.0.2.0",
   "ApplicableVersion": "any",
   "DalamudApiLevel": "15",
   "RepoUrl": "https://github.com/exatrines/Goetia",
+  "IconUrl": "https://raw.githubusercontent.com/exatrines/Goetia/main/Goetia/Data/plugin-icon.png",
   "Tags": [
     "marking",
     "hotbar",
