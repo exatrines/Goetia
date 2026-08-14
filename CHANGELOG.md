@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-08-14
+
+### Added
+
+- README hero and plugin installer screenshot (party list Attack / Bind / Stop highlights).
+
 ## [1.0.0] - 2026-08-14
 
 ### Added
@@ -18,5 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Preview overlay: party seats × hotbars and which source is driving highlights (close with ×).
 - Per-rule outline colors (Near/Far World red, Dynamis stacks purple, Remaining yellow; reload resets to defaults).
 
-[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/exatrines/Goetia/releases/tag/v1.0.1
 [1.0.0]: https://github.com/exatrines/Goetia/releases/tag/v1.0.0

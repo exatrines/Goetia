@@ -2,6 +2,8 @@
 
 [English](README.md)
 
+![パーティリスト上の Attack / Bind / Stop ハイライト](docs/screenshots/party-highlight-1280x720.png)
+
 Goetia は、**手動マーカー補助**用の Dalamud プラグインです。パーティ HUD 順（`<1>`–`<8>`）に合わせ、Attack / Bind / Stop のホットバースロットをハイライトします。
 
 `/mk` マクロは自分でそのバーに置きます。ビルトインモジュールがマークを提案すると、対応スロットに枠が付きます。`/mk` 自体は発行しません。

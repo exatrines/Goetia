@@ -2,6 +2,8 @@
 
 [日本語](README.ja.md)
 
+![Party list with Attack, Bind, and Stop highlights](docs/screenshots/party-highlight-1280x720.png)
+
 Goetia is a Dalamud plugin for **manual mark assist**. It highlights Attack / Bind / Stop hotbar slots in party HUD order (`<1>`–`<8>`).
 
 You place `/mk` macros on those bars yourself. When a builtin module suggests a mark, Goetia draws a frame on the matching slot. It never issues `/mk`.
