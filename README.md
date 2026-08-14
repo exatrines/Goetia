@@ -4,11 +4,13 @@
 
 ![Party list with Attack, Bind, and Stop highlights](docs/screenshots/party-highlight-1280x720.png)
 
-Goetia is a Dalamud plugin for **manual mark assist**. It highlights Attack / Bind / Stop hotbar slots in party HUD order (`<1>`–`<8>`).
+Goetia is a Dalamud plugin for **manual mark assist**. It highlights Attack / Bind / Stop hotbar slots in party list order (`<1>`–`<8>`).
 
-You place `/mk` macros on those bars yourself. When a builtin module suggests a mark, Goetia draws a frame on the matching slot. It never issues `/mk`.
+You need to place `/mk` macros on the assigned hotbars yourself. When a module suggests a mark, a frame appears on the matching slot. It never issues `/mk`.
 
-Map three hotbars in settings, enable the Dynamis modules you need, then mark from the highlighted macros during the pull.
+- Map hotbars in settings
+- Enable the modules you need
+- During combat, mark from the highlighted macros
 
 ## Install
 
@@ -23,11 +25,14 @@ https://raw.githubusercontent.com/exatrines/DalamudPlugins/refs/heads/main/plugi
 
 ## Features
 
-- **Hotbar highlighting** — Attack / Bind / Stop columns mapped to party order; per-rule outline color and thickness
+- **Hotbar highlighting** — Maps Attack / Bind / Stop hotbars to party list order, with per-rule outline color and thickness.
+- **Preview overlay** — Optional overlay of party slots and hotbars, and which module is driving highlights (open from the main window Eye; close with × to turn off).
+
+## Modules
+
 - **Run Dynamis Delta** — Near/Far World → Stop
-- **Run Dynamis Sigma** — Near/Far World Stop; Dynamis ×1 then remainder Attack
+- **Run Dynamis Sigma** — Near/Far World → Stop; Dynamis ×1 then remainder Attack
 - **Run Dynamis Omega** — Half1 then Half2 after FirstInLine clears
-- **Preview overlay** — optional overlay of seats × hotbars and which module is driving highlights (main window eye; close with × to turn off)
 
 ## Commands
 
