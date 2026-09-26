@@ -4,13 +4,9 @@
 
 ![パーティリスト上の Attack / Bind / Stop ハイライト](docs/screenshots/party-highlight-1280x720.png)
 
-Goetia は、**手動マーカー補助**用の Dalamud プラグインです。パーティリスト順（`<1>`–`<8>`）に合わせ、Attack / Bind / Stop のホットバースロットをハイライトします。
+Goetia は、**手動マーカー補助**用の Dalamud プラグインです。パーティ HUD 順（`<1>`–`<8>`）に合わせ、Attack / Bind / Stop のホットバースロットをハイライトします。
 
-`/mk` マクロは、割り当てたホットバーに自分で配置する必要があります。モジュールがマークを提案すると、対応スロットに枠が表示されます。`/mk` 自体は発行しません。
-
-- 設定でホットバーを割り当てる
-- 使うモジュールを有効にする
-- 戦闘中、ハイライトされたマクロでマークする
+`/mk` マクロは、割り当てたホットバーに自分で置きます。設定でバーを対応づけ、使うモジュールを有効にし、戦闘中はハイライトされたスロットからマークします。Goetia は `/mk` を発行しません。
 
 ## インストール
 
@@ -25,14 +21,21 @@ https://raw.githubusercontent.com/exatrines/DalamudPlugins/refs/heads/main/plugi
 
 ## 機能
 
-- **ホットバーハイライト** — パーティリスト順に Attack / Bind / Stop のホットバーを割り当て、ルールごとに枠の色と太さを設定できます。
-- **Preview オーバーレイ** — 必要なら表示します。パーティのスロットとホットバーの対応、どのモジュールがハイライトしているかを確認できます（メインの Eye で開き、× でオフ）。
+- **ホットバーハイライト** — パーティ HUD 順に Attack / Bind / Stop のホットバーを割り当て、ルールごとに枠の色と太さを設定できます。
+- **Preview オーバーレイ** — 必要なら表示します。パーティの席とホットバーの対応、どのモジュールがハイライトしているかを確認できます（メインの Eye で開き、× でオフ）。
 
 ## モジュール
 
+TOP（The Omega Protocol）:
+
 - **Run Dynamis Delta** — Near/Far World → Stop
-- **Run Dynamis Sigma** — Near/Far World → Stop。Dynamis ×1 のあと残りを Attack
-- **Run Dynamis Omega** — FirstInLine 消滅後に Half1 → Half2
+- **Run Dynamis Sigma** — Near/Far World → Stop。Dynamis ×1（最大 2）のあと残りを Attack
+- **Run Dynamis Omega** — Half1 のあと、FirstInLine 消滅で Half2。Near/Far → Stop、Dynamis スタック → Bind、残り → Attack
+
+DSR（絶竜詩戦争）:
+
+- **Wrath of the Heavens** — Thunderstruck（サンダーウィング）→ Stop
+- **Wroth Flames** — Spreading Flames（復讐の炎）→ Attack、Entangled Flames（道連れの炎）→ Bind、残り → Stop
 
 ## コマンド
 

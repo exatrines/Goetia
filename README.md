@@ -4,13 +4,9 @@
 
 ![Party list with Attack, Bind, and Stop highlights](docs/screenshots/party-highlight-1280x720.png)
 
-Goetia is a Dalamud plugin for **manual mark assist**. It highlights Attack / Bind / Stop hotbar slots in party list order (`<1>`–`<8>`).
+Goetia is a Dalamud plugin for **manual mark assist**. It highlights Attack / Bind / Stop hotbar slots in party HUD order (`<1>`–`<8>`).
 
-You need to place `/mk` macros on the assigned hotbars yourself. When a module suggests a mark, a frame appears on the matching slot. It never issues `/mk`.
-
-- Map hotbars in settings
-- Enable the modules you need
-- During combat, mark from the highlighted macros
+Place `/mk` macros on the assigned hotbars yourself. Map those bars in settings, enable the modules you need, and mark from the highlighted slots during combat. Goetia never issues `/mk`.
 
 ## Install
 
@@ -25,14 +21,21 @@ https://raw.githubusercontent.com/exatrines/DalamudPlugins/refs/heads/main/plugi
 
 ## Features
 
-- **Hotbar highlighting** — Maps Attack / Bind / Stop hotbars to party list order, with per-rule outline color and thickness.
-- **Preview overlay** — Optional overlay of party slots and hotbars, and which module is driving highlights (open from the main window Eye; close with × to turn off).
+- **Hotbar highlighting** — Maps Attack / Bind / Stop hotbars to party HUD order, with per-rule outline color and thickness.
+- **Preview overlay** — Optional overlay of party seats and hotbars, and which module is driving highlights (open from the main window Eye; close with × to turn off).
 
 ## Modules
 
+TOP (The Omega Protocol):
+
 - **Run Dynamis Delta** — Near/Far World → Stop
-- **Run Dynamis Sigma** — Near/Far World → Stop; Dynamis ×1 then remainder Attack
-- **Run Dynamis Omega** — Half1 then Half2 after FirstInLine clears
+- **Run Dynamis Sigma** — Near/Far World → Stop; Dynamis ×1 (max 2), then remaining → Attack
+- **Run Dynamis Omega** — Half1, then Half2 after FirstInLine clears. Near/Far → Stop; Dynamis stacks → Bind; remaining → Attack
+
+DSR (Dragonsong's Reprise):
+
+- **Wrath of the Heavens** — Thunderstruck → Stop
+- **Wroth Flames** — Spreading Flames → Attack; Entangled Flames → Bind; remaining → Stop
 
 ## Commands
 
