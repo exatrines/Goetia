@@ -72,7 +72,13 @@ internal sealed unsafe class HotbarHighlightService
         }
 
         _previewBuffer.Clear();
-        var color = GoetiaModule.DefaultColorRemaining;
+        var color = role switch
+        {
+            MarkRole.Attack => GoetiaModule.DefaultColorYellow,
+            MarkRole.Bind => GoetiaModule.DefaultColorPurple,
+            MarkRole.Stop => GoetiaModule.DefaultColorRed,
+            _ => GoetiaModule.DefaultColorYellow,
+        };
         for (var i = 0; i < PartyOrderService.MaxPartySize; i++)
             _previewBuffer.Add(new HighlightEntry(i, role, color));
 

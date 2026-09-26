@@ -8,7 +8,7 @@ internal sealed class DynamisSigmaModule : GoetiaModule
 
     public override string Id => Configuration.ModuleIdSigma;
     public override string DisplayName => "Run Dynamis Sigma";
-    public override IReadOnlySet<uint>? ValidTerritories => TopP5.Territories;
+    public override IReadOnlySet<uint>? ValidTerritories => Top.Territories;
 
     private SigmaConfig Config => GetConfig<SigmaConfig>();
 
@@ -21,26 +21,25 @@ internal sealed class DynamisSigmaModule : GoetiaModule
     public override void OnUpdate(ModuleContext ctx)
     {
         TickActive(ctx);
-        if (!_active)
+        if (!_active || !_sawNearOrFar)
             return;
 
         var c = Config;
         var claimed = new HashSet<int>();
 
-        for (var i = 0; i < ModuleContext.MaxPartySize; i++)
-        {
-            if (!ctx.IsOccupied(i) || !TopP5.HasNearOrFar(ctx, i))
-                continue;
-            ctx.SetHighlight(i, c.NearFarHotbar, c.NearFarColor);
-            claimed.Add(i);
-        }
+        ctx.TakeUnclaimed(
+            claimed,
+            c.NearFarHotbar,
+            c.NearFarColor,
+            ModuleContext.MaxPartySize,
+            seat => Top.HasNearOrFar(ctx, seat));
 
         ctx.TakeUnclaimed(
             claimed,
             c.DynamisParam1Hotbar,
             c.DynamisParam1Color,
             2,
-            seat => ctx.HasStatusParam(seat, TopP5.StatusDynamis, 1));
+            seat => ctx.HasStatusParam(seat, Top.StatusDynamis, 1));
 
         ctx.TakeUnclaimed(
             claimed,
@@ -55,10 +54,10 @@ internal sealed class DynamisSigmaModule : GoetiaModule
         MirageUi.SubHeader("Rules");
         MirageUi.Text("Territory: TOP (1122)", MirageUi.Color.Secondary);
         MirageUi.Text(
-            $"Start: Run Dynamis Sigma cast ({TopP5.CastDynamisSigma})",
+            $"Start: Run Dynamis Sigma cast ({Top.CastDynamisSigma})",
             MirageUi.Color.Secondary);
         MirageUi.Text(
-            $"End: after Near/Far World ({TopP5.StatusHelloNear}/{TopP5.StatusHelloFar}) has appeared once, then none remain on party",
+            $"End: after Near/Far World ({Top.StatusHelloNear}/{Top.StatusHelloFar}) has appeared once, then none remain on party",
             MirageUi.Color.Secondary);
         ImGui.Dummy(new Vector2(0f, ImGui.GetStyle().ItemSpacing.Y));
         MirageUi.Text("Rule:", MirageUi.Color.Secondary);
@@ -72,19 +71,19 @@ internal sealed class DynamisSigmaModule : GoetiaModule
                 "Near/Far World",
                 ref c.NearFarHotbar,
                 ref c.NearFarColor,
-                DefaultColorNearFarWorld))
+                DefaultColorRed))
             changed = true;
         if (DrawMarkHotbar(
                 "Dynamis ×1 (max 2)",
                 ref c.DynamisParam1Hotbar,
                 ref c.DynamisParam1Color,
-                DefaultColorDynamis))
+                DefaultColorPurple))
             changed = true;
         if (DrawMarkHotbar(
                 "Remaining",
                 ref c.RemainingHotbar,
                 ref c.RemainingColor,
-                DefaultColorRemaining))
+                DefaultColorYellow))
             changed = true;
         if (changed)
             SaveConfig(c);
@@ -92,19 +91,19 @@ internal sealed class DynamisSigmaModule : GoetiaModule
 
     private void TickActive(ModuleContext ctx)
     {
-        if (ctx.IsEnemyCasting(TopP5.CastDynamisSigma))
+        if (ctx.IsEnemyCasting(Top.CastDynamisSigma))
             _active = true;
 
         if (!_active)
             return;
 
-        if (TopP5.AnyNearOrFar(ctx))
+        if (Top.AnyNearOrFar(ctx))
             _sawNearOrFar = true;
 
         if (!_sawNearOrFar)
             return;
 
-        if (TopP5.AnyNearOrFar(ctx))
+        if (Top.AnyNearOrFar(ctx))
             return;
 
         OnReset();
@@ -113,10 +112,10 @@ internal sealed class DynamisSigmaModule : GoetiaModule
     public sealed class SigmaConfig
     {
         public MarkRole NearFarHotbar = MarkRole.Stop;
-        public Vector4 NearFarColor = DefaultColorNearFarWorld;
+        public Vector4 NearFarColor = DefaultColorRed;
         public MarkRole DynamisParam1Hotbar = MarkRole.Attack;
-        public Vector4 DynamisParam1Color = DefaultColorDynamis;
+        public Vector4 DynamisParam1Color = DefaultColorPurple;
         public MarkRole RemainingHotbar = MarkRole.Attack;
-        public Vector4 RemainingColor = DefaultColorRemaining;
+        public Vector4 RemainingColor = DefaultColorYellow;
     }
 }

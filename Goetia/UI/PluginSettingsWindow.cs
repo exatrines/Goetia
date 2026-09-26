@@ -20,6 +20,7 @@ internal sealed class PluginSettingsWindow : Window
             "Goetia Settings###goetiaSettings",
             ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse | ImGuiWindowFlags.NoResize)
     {
+        MirageWindowDefaults.ApplyTo(this);
         Size = DefaultSize;
         SizeCondition = ImGuiCond.Always;
         SizeConstraints = new WindowSizeConstraints

@@ -13,19 +13,26 @@ internal abstract class GoetiaModule
 
     public bool IsEnabled { get; set; }
 
+    private object? _configCache;
+    private string? _cachedJson;
+
     public virtual void OnReset() { }
     public abstract void OnUpdate(ModuleContext context);
     public virtual void DrawConfig() { }
 
     protected T GetConfig<T>() where T : class, new()
     {
-        if (C.ModuleConfigs.TryGetValue(Id, out var json) && !string.IsNullOrWhiteSpace(json))
+        C.ModuleConfigs.TryGetValue(Id, out var json);
+        json ??= string.Empty;
+        if (_configCache is T cached && _cachedJson == json)
+            return cached;
+
+        var loaded = new T();
+        if (!string.IsNullOrWhiteSpace(json))
         {
             try
             {
-                var loaded = JsonConvert.DeserializeObject<T>(json);
-                if (loaded != null)
-                    return loaded;
+                loaded = JsonConvert.DeserializeObject<T>(json) ?? new T();
             }
             catch (Exception ex)
             {
@@ -33,18 +40,23 @@ internal abstract class GoetiaModule
             }
         }
 
-        return new T();
+        _configCache = loaded;
+        _cachedJson = json;
+        return loaded;
     }
 
     protected void SaveConfig<T>(T config) where T : class
     {
-        C.ModuleConfigs[Id] = JsonConvert.SerializeObject(config);
+        var json = JsonConvert.SerializeObject(config);
+        C.ModuleConfigs[Id] = json;
+        _configCache = config;
+        _cachedJson = json;
         C.Save();
     }
 
-    public static readonly Vector4 DefaultColorNearFarWorld = new(0.90f, 0.20f, 0.20f, 1f);
-    public static readonly Vector4 DefaultColorDynamis = new(0.58f, 0.28f, 0.88f, 1f);
-    public static readonly Vector4 DefaultColorRemaining = new(1.00f, 0.90f, 0.15f, 1f);
+    public static readonly Vector4 DefaultColorRed = new(0.90f, 0.20f, 0.20f, 1f);
+    public static readonly Vector4 DefaultColorPurple = new(0.58f, 0.28f, 0.88f, 1f);
+    public static readonly Vector4 DefaultColorYellow = new(1.00f, 0.90f, 0.15f, 1f);
 
     private static readonly string[] MarkHotbarLabels = ["Attack", "Bind", "Stop"];
     private const float MarkHotbarComboWidth = 86f;

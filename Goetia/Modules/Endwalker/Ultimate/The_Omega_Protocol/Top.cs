@@ -1,7 +1,7 @@
 namespace Goetia.Modules;
 
-/// <summary>TOP (Territory 1122) P5 Dynamis shared action/status ids.</summary>
-internal static class TopP5
+/// <summary>TOP (Territory 1122) shared action/status ids.</summary>
+internal static class Top
 {
     public const uint Territory = 1122;
 

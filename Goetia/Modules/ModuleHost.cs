@@ -25,6 +25,8 @@ internal sealed class ModuleHost
             new DynamisDeltaModule(),
             new DynamisSigmaModule(),
             new DynamisOmegaModule(),
+            new WrathOfTheHeavensModule(),
+            new WrothFlamesModule(),
         ];
 
         foreach (var module in _modules)

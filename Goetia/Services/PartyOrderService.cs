@@ -12,6 +12,7 @@ namespace Goetia.Services;
 internal sealed unsafe class PartyOrderService
 {
     public const int MaxPartySize = 8;
+    private const uint InvalidEntityId = 0xE0000000;
 
     private readonly PartySlot[] _slots = new PartySlot[MaxPartySize];
 
@@ -54,7 +55,7 @@ internal sealed unsafe class PartyOrderService
 
             hudBySeat[seat] = (name, hud.EntityId, hud.ContentId);
 
-            if (hud.ContentId != 0 || (hud.EntityId != 0 && hud.EntityId != 0xE0000000) || !string.IsNullOrEmpty(name))
+            if (hud.ContentId != 0 || IsValidEntityId(hud.EntityId) || !string.IsNullOrEmpty(name))
             {
                 _slots[seat] = new PartySlot
                 {
@@ -153,7 +154,7 @@ internal sealed unsafe class PartyOrderService
             return false;
 
         var entityId = _slots[partyIndex].EntityId;
-        if (entityId != 0 && entityId != 0xE0000000)
+        if (IsValidEntityId(entityId))
         {
             var obj = PluginServices.ObjectTable.SearchByEntityId(entityId);
             if (obj is IBattleChara battle)
@@ -235,6 +236,9 @@ internal sealed unsafe class PartyOrderService
 
         return string.Equals(Base(a), Base(b), StringComparison.OrdinalIgnoreCase);
     }
+
+    private static bool IsValidEntityId(uint entityId) =>
+        entityId != 0 && entityId != InvalidEntityId;
 
     private static string ReadCString(CStringPointer ptr)
     {

@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-26
+
+### Added
+
+- DSR modules: Wrath of the Heavens (Thunderstruck → Stop) and Wroth Flames (Spreading → Attack, Entangled → Bind, remaining → Stop).
+- Plugin page from the title-bar heart and the sidebar icon, with GitHub, Discord, and Support links.
+
+### Changed
+
+- Replace the plugin icon with the Goetia G mark on the kit frame.
+- TOP Sigma / Omega wait until Near/Far World appears before assigning Remaining.
+- Preview outline colors: Attack yellow, Bind purple, Stop red.
+- Update MirageUI.
+
 ## [1.0.2] - 2026-08-14
 
 ### Added
@@ -35,7 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Preview overlay: party seats × hotbars and which source is driving highlights (close with ×).
 - Per-rule outline colors (Near/Far World red, Dynamis stacks purple, Remaining yellow; reload resets to defaults).
 
-[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/exatrines/Goetia/releases/tag/v1.1.0
 [1.0.2]: https://github.com/exatrines/Goetia/releases/tag/v1.0.2
 [1.0.1]: https://github.com/exatrines/Goetia/releases/tag/v1.0.1
 [1.0.0]: https://github.com/exatrines/Goetia/releases/tag/v1.0.0

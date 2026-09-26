@@ -10,6 +10,8 @@ public sealed class Configuration : IPluginConfiguration
     public const string ModuleIdDelta = "TOP.DynamisDelta";
     public const string ModuleIdSigma = "TOP.DynamisSigma";
     public const string ModuleIdOmega = "TOP.DynamisOmega";
+    public const string ModuleIdWrathOfTheHeavens = "DSR.WrathOfTheHeavens";
+    public const string ModuleIdWrothFlames = "DSR.WrothFlames";
 
     public int Version { get; set; } = 1;
 
@@ -18,6 +20,8 @@ public sealed class Configuration : IPluginConfiguration
     public bool EnableDynamisDelta { get; set; } = true;
     public bool EnableDynamisSigma { get; set; } = true;
     public bool EnableDynamisOmega { get; set; } = true;
+    public bool EnableWrathOfTheHeavens { get; set; } = true;
+    public bool EnableWrothFlames { get; set; } = true;
 
     public MarkColumnLayout AttackColumn { get; set; } = MarkColumnLayout.CreateDefault(0);
     public MarkColumnLayout BindColumn { get; set; } = MarkColumnLayout.CreateDefault(1);
@@ -53,6 +57,8 @@ public sealed class Configuration : IPluginConfiguration
         ModuleIdDelta => EnableDynamisDelta,
         ModuleIdSigma => EnableDynamisSigma,
         ModuleIdOmega => EnableDynamisOmega,
+        ModuleIdWrathOfTheHeavens => EnableWrathOfTheHeavens,
+        ModuleIdWrothFlames => EnableWrothFlames,
         _ => defaultValue,
     };
 
@@ -68,6 +74,12 @@ public sealed class Configuration : IPluginConfiguration
                 break;
             case ModuleIdOmega:
                 EnableDynamisOmega = enabled;
+                break;
+            case ModuleIdWrathOfTheHeavens:
+                EnableWrathOfTheHeavens = enabled;
+                break;
+            case ModuleIdWrothFlames:
+                EnableWrothFlames = enabled;
                 break;
         }
     }

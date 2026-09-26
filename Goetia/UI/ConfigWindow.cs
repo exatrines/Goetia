@@ -22,6 +22,7 @@ internal sealed class ConfigWindow : Window
     {
         _modules = modules;
         _openPluginSettings = openPluginSettings;
+        MirageWindowDefaults.ApplyTo(this);
         Size = DefaultSize;
         SizeCondition = ImGuiCond.Always;
         SizeConstraints = new WindowSizeConstraints
@@ -71,6 +72,9 @@ internal sealed class ConfigWindow : Window
             AllowDeselect = false,
             SidebarHeader = new MirageTwoColumnSidebarHeader
             {
+                ImagePath = MirageUi.PluginInfo.IconPath,
+                ImageWidth = 48f,
+                ImageHeight = 48f,
                 Title = PluginServices.PluginInterface.Manifest.Name ?? "Goetia",
                 Subtitle = $"v{version}",
                 TrailingActions =

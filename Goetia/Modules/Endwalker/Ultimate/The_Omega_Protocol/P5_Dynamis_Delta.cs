@@ -8,7 +8,7 @@ internal sealed class DynamisDeltaModule : GoetiaModule
 
     public override string Id => Configuration.ModuleIdDelta;
     public override string DisplayName => "Run Dynamis Delta";
-    public override IReadOnlySet<uint>? ValidTerritories => TopP5.Territories;
+    public override IReadOnlySet<uint>? ValidTerritories => Top.Territories;
 
     private DeltaConfig Config => GetConfig<DeltaConfig>();
 
@@ -21,15 +21,15 @@ internal sealed class DynamisDeltaModule : GoetiaModule
     public override void OnUpdate(ModuleContext ctx)
     {
         TickActive(ctx);
-        if (!_active)
+        if (!_active || !_sawNearOrFar)
             return;
 
-        var role = Config.NearFarHotbar;
+        var c = Config;
         for (var i = 0; i < ModuleContext.MaxPartySize; i++)
         {
-            if (!ctx.IsOccupied(i) || !TopP5.HasNearOrFar(ctx, i))
+            if (!ctx.IsOccupied(i) || !Top.HasNearOrFar(ctx, i))
                 continue;
-            ctx.SetHighlight(i, role, Config.NearFarColor);
+            ctx.SetHighlight(i, c.NearFarHotbar, c.NearFarColor);
         }
     }
 
@@ -39,10 +39,10 @@ internal sealed class DynamisDeltaModule : GoetiaModule
         MirageUi.SubHeader("Rules");
         MirageUi.Text("Territory: TOP (1122)", MirageUi.Color.Secondary);
         MirageUi.Text(
-            $"Start: Run Dynamis Delta cast ({TopP5.CastDynamisDelta})",
+            $"Start: Run Dynamis Delta cast ({Top.CastDynamisDelta})",
             MirageUi.Color.Secondary);
         MirageUi.Text(
-            $"End: after Near/Far World ({TopP5.StatusHelloNear}/{TopP5.StatusHelloFar}) has appeared once, then none remain on party",
+            $"End: after Near/Far World ({Top.StatusHelloNear}/{Top.StatusHelloFar}) has appeared once, then none remain on party",
             MirageUi.Color.Secondary);
         ImGui.Dummy(new Vector2(0f, ImGui.GetStyle().ItemSpacing.Y));
         MirageUi.Text("Rule:", MirageUi.Color.Secondary);
@@ -55,25 +55,25 @@ internal sealed class DynamisDeltaModule : GoetiaModule
                 "Near/Far World",
                 ref c.NearFarHotbar,
                 ref c.NearFarColor,
-                DefaultColorNearFarWorld))
+                DefaultColorRed))
             SaveConfig(c);
     }
 
     private void TickActive(ModuleContext ctx)
     {
-        if (ctx.IsEnemyCasting(TopP5.CastDynamisDelta))
+        if (ctx.IsEnemyCasting(Top.CastDynamisDelta))
             _active = true;
 
         if (!_active)
             return;
 
-        if (TopP5.AnyNearOrFar(ctx))
+        if (Top.AnyNearOrFar(ctx))
             _sawNearOrFar = true;
 
         if (!_sawNearOrFar)
             return;
 
-        if (TopP5.AnyNearOrFar(ctx))
+        if (Top.AnyNearOrFar(ctx))
             return;
 
         OnReset();
@@ -82,6 +82,6 @@ internal sealed class DynamisDeltaModule : GoetiaModule
     public sealed class DeltaConfig
     {
         public MarkRole NearFarHotbar = MarkRole.Stop;
-        public Vector4 NearFarColor = DefaultColorNearFarWorld;
+        public Vector4 NearFarColor = DefaultColorRed;
     }
 }
