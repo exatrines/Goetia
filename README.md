@@ -4,9 +4,9 @@
 
 ![Party list with Attack, Bind, and Stop highlights](docs/screenshots/party-highlight-1280x720.png)
 
-Goetia is a Dalamud plugin for **manual mark assist**. It highlights Attack / Bind / Stop hotbar slots in party HUD order (`<1>`–`<8>`).
+Goetia is a Dalamud plugin for **manual mark assist**. It highlights Attack / Bind / Stop hotbar slots in party list order (`<1>`–`<8>`).
 
-Place `/mk` macros on the assigned hotbars yourself. Map those bars in settings, enable the modules you need, and mark from the highlighted slots during combat. Goetia never issues `/mk`.
+Goetia never issues `/mk`. Place `/mk` macros on the assigned hotbars yourself. Map hotbars and slots in settings, enable the modules you need, and the matching slots light up during combat.
 
 ## Install
 
@@ -21,21 +21,53 @@ https://raw.githubusercontent.com/exatrines/DalamudPlugins/refs/heads/main/plugi
 
 ## Features
 
-- **Hotbar highlighting** — Maps Attack / Bind / Stop hotbars to party HUD order, with per-rule outline color and thickness.
-- **Preview overlay** — Optional overlay of party seats and hotbars, and which module is driving highlights (open from the main window Eye; close with × to turn off).
+- **Hotbar mapping** — `/goetia settings` maps Attack / Bind / Stop hotbars and the `<1>` origin slot. Assign three hotbars so eight consecutive slots follow party list order `<1>`–`<8>`. Example: hotbars 6 / 7 / 8, slots 5–12.
+- **Preview overlay** — Optional overlay of party seats and hotbars, and which module is driving highlights (open from the main window Eye, or Preview in settings; close with × to turn off).
 
 ## Modules
 
-TOP (The Omega Protocol):
+Open `/goetia` and turn on the modules you use.
 
-- **Run Dynamis Delta** — Near/Far World → Stop
-- **Run Dynamis Sigma** — Near/Far World → Stop; Dynamis ×1 (max 2), then remaining → Attack
-- **Run Dynamis Omega** — Half1, then Half2 after FirstInLine clears. Near/Far → Stop; Dynamis stacks → Bind; remaining → Attack
+### TOP (The Omega Protocol)
 
-DSR (Dragonsong's Reprise):
+Default assignment for each module:
 
-- **Wrath of the Heavens** — Thunderstruck → Stop
-- **Wroth Flames** — Spreading Flames → Attack; Entangled Flames → Bind; remaining → Stop
+#### Run Dynamis Delta
+
+1. Near World / Far World (2 players) → `Stop`
+
+#### Run Dynamis Sigma
+
+1. Near World / Far World (2 players) → `Stop`
+2. Dynamis ×1 (up to 2 players) → `Bind`
+3. Remaining 4 players → `Attack`
+
+#### Run Dynamis Omega (first half)
+
+1. First in Line (2 players) → `Stop`
+2. Second in Line with Dynamis ×2 → `Bind`
+3. Fill remaining Bind slots from Dynamis ×2 so Bind totals 2
+4. Remaining 4 players → `Attack`
+
+#### Run Dynamis Omega (second half)
+
+1. Near World / Far World (2 players) → `Stop`
+2. Dynamis ×3 (2 players) → `Bind`
+3. Remaining 4 players → `Attack`
+
+### DSR (Dragonsong's Reprise)
+
+Default assignment for each module:
+
+#### Wrath of the Heavens
+
+1. Thunderstruck (2 players) → `Stop`
+
+#### Wroth Flames
+
+1. Spreading Flames (4 players) → `Attack`
+2. Entangled Flames (2 players) → `Bind`
+3. Remaining 2 players → `Stop`
 
 ## Commands
 
