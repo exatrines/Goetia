@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Added `CONTRIBUTING.md`, synced from the shared contributing guide
+
+### Changed
+
+- README: documented TOP and DSR default assignments, hotbar mapping, and refreshed the party-highlight hero
+- README layout: centered plugin icon, English | Japanese switch, pink and white Release / Changelog / License badges, Japanese README in `docs/`, and a submodule init step for developers
+- Restored the full GNU AGPL v3 license text
+
 ## [1.1.0] - 2026-09-26
 
 ### Added
