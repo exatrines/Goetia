@@ -1,23 +1,34 @@
 using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using Goetia.Modules;
 
 namespace Goetia.Services;
 
-/// <summary>Draws highlight frames on hotbar slots by (hotbar, slot) position.</summary>
+/// <summary>
+/// Draws highlight frames on HUD Action Bars 1–10 (Settings Hotbar numbers).
+/// Does not use RaptureHotbarId, which follows the currently cycled hotbar set.
+/// </summary>
 internal sealed unsafe class HotbarHighlightService
 {
-    private static readonly string[] ActionBarAddonNames =
+    private static readonly (string AddonName, byte HotbarId)[] HudActionBars =
     [
-        "_ActionBar",
-        "_ActionBar01",
-        "_ActionBar02",
-        "_ActionBar03",
-        "_ActionBar04",
-        "_ActionBar05",
-        "_ActionBar06",
-        "_ActionBar07",
-        "_ActionBar08",
-        "_ActionBar09",
+        ("_ActionBar", 0),
+        ("_ActionBar01", 1),
+        ("_ActionBar02", 2),
+        ("_ActionBar03", 3),
+        ("_ActionBar04", 4),
+        ("_ActionBar05", 5),
+        ("_ActionBar06", 6),
+        ("_ActionBar07", 7),
+        ("_ActionBar08", 8),
+        ("_ActionBar09", 9),
+    ];
+
+    private static readonly (string SourceId, MarkRole Role)[] PreviewRoles =
+    [
+        (HighlightStore.SourcePreviewAttack, MarkRole.Attack),
+        (HighlightStore.SourcePreviewBind, MarkRole.Bind),
+        (HighlightStore.SourcePreviewStop, MarkRole.Stop),
     ];
 
     private readonly HighlightStore _store;
@@ -42,25 +53,28 @@ internal sealed unsafe class HotbarHighlightService
 
         var drawList = ImGui.GetForegroundDrawList();
         var thickness = Math.Max(1f, C.HighlightThickness);
-
-        foreach (var addonName in ActionBarAddonNames)
-            DrawAddonMatches(addonName, drawList, thickness);
+        foreach (var (addonName, hotbarId) in HudActionBars)
+            DrawHudBar(addonName, hotbarId, drawList, thickness);
     }
 
     private void BuildTargetSlots()
     {
         _slotColors.Clear();
         _store.CollectActive(_active);
-
         foreach (var entry in _active)
             TryAddSlot(entry);
     }
 
     private void SyncPreviewSources()
     {
-        SyncPreviewSource(HighlightStore.SourcePreviewAttack, MarkRole.Attack);
-        SyncPreviewSource(HighlightStore.SourcePreviewBind, MarkRole.Bind);
-        SyncPreviewSource(HighlightStore.SourcePreviewStop, MarkRole.Stop);
+        foreach (var (sourceId, role) in PreviewRoles)
+            SyncPreviewSource(sourceId, role);
+    }
+
+    private void ClearPreviewSources()
+    {
+        foreach (var (sourceId, _) in PreviewRoles)
+            _store.ClearSource(sourceId);
     }
 
     private void SyncPreviewSource(string sourceId, MarkRole role)
@@ -72,24 +86,11 @@ internal sealed unsafe class HotbarHighlightService
         }
 
         _previewBuffer.Clear();
-        var color = role switch
-        {
-            MarkRole.Attack => GoetiaModule.DefaultColorYellow,
-            MarkRole.Bind => GoetiaModule.DefaultColorPurple,
-            MarkRole.Stop => GoetiaModule.DefaultColorRed,
-            _ => GoetiaModule.DefaultColorYellow,
-        };
+        var color = PreviewColor(role);
         for (var i = 0; i < PartyOrderService.MaxPartySize; i++)
             _previewBuffer.Add(new HighlightEntry(i, role, color));
 
         _store.Replace(sourceId, _previewBuffer);
-    }
-
-    private void ClearPreviewSources()
-    {
-        _store.ClearSource(HighlightStore.SourcePreviewAttack);
-        _store.ClearSource(HighlightStore.SourcePreviewBind);
-        _store.ClearSource(HighlightStore.SourcePreviewStop);
     }
 
     private void TryAddSlot(HighlightEntry entry)
@@ -101,20 +102,16 @@ internal sealed unsafe class HotbarHighlightService
         _slotColors[(hotbarId, slotId)] = ImGui.ColorConvertFloat4ToU32(entry.Color);
     }
 
-    private void DrawAddonMatches(string addonName, ImDrawListPtr drawList, float thickness)
+    private void DrawHudBar(string addonName, byte hotbarId, ImDrawListPtr drawList, float thickness)
     {
         var addonHandle = PluginServices.GameGui.GetAddonByName(addonName, 1);
         if (addonHandle == nint.Zero)
             return;
 
         var addon = (AddonActionBarBase*)addonHandle.Address;
-        if (addon == null || !addon->IsVisible || addon->RootNode == null || !addon->RootNode->IsVisible())
+        if (addon == null || addon->RootNode == null || !addon->RootNode->IsVisible())
             return;
 
-        if (addon->RaptureHotbarId > 9)
-            return;
-
-        var hotbarId = addon->RaptureHotbarId;
         var slotCount = Math.Min((int)addon->SlotCount, addon->ActionBarSlotVector.Count);
         if (slotCount <= 0)
             return;
@@ -132,16 +129,21 @@ internal sealed unsafe class HotbarHighlightService
         }
     }
 
+    private static Vector4 PreviewColor(MarkRole role) => role switch
+    {
+        MarkRole.Attack => GoetiaModule.DefaultColorYellow,
+        MarkRole.Bind => GoetiaModule.DefaultColorPurple,
+        MarkRole.Stop => GoetiaModule.DefaultColorRed,
+        _ => GoetiaModule.DefaultColorYellow,
+    };
+
     private static bool TryGetSlotScreenRect(ref ActionBarSlot barSlot, out Vector2 min, out Vector2 max)
     {
         min = default;
         max = default;
 
-        var node = barSlot.IconFrame;
-        if (node == null && barSlot.Icon != null)
-            node = &barSlot.Icon->AtkResNode;
-
-        if (node == null || !node->IsVisible())
+        var node = PickSlotNode(ref barSlot);
+        if (node == null)
             return false;
 
         var scaleX = 1f;
@@ -156,4 +158,17 @@ internal sealed unsafe class HotbarHighlightService
         max = min + new Vector2(node->Width * scaleX, node->Height * scaleY);
         return max.X > min.X && max.Y > min.Y;
     }
+
+    private static AtkResNode* PickSlotNode(ref ActionBarSlot barSlot)
+    {
+        var iconNode = barSlot.Icon != null ? &barSlot.Icon->AtkResNode : null;
+        if (IsUsableSlotNode(barSlot.IconFrame))
+            return barSlot.IconFrame;
+        if (IsUsableSlotNode(iconNode))
+            return iconNode;
+        return null;
+    }
+
+    private static bool IsUsableSlotNode(AtkResNode* node) =>
+        node != null && node->IsVisible() && node->Width > 0 && node->Height > 0;
 }

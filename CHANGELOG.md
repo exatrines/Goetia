@@ -7,15 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-### Added
+## [1.1.1] - 2026-10-18
 
-- Added `CONTRIBUTING.md`, synced from the shared contributing guide
+### Fixed
 
-### Changed
-
-- README: documented TOP and DSR default assignments, hotbar mapping, and refreshed the party-highlight hero
-- README layout: centered plugin icon, English | Japanese switch, pink and white Release / Changelog / License badges, Japanese README in `docs/`, and a submodule init step for developers
-- Restored the full GNU AGPL v3 license text
+- Hotbar highlights now draw on the HUD Action Bar chosen in Settings (1–10), not on whichever bar currently shows that hotbar set. Frames still draw when the slot frame node is hidden.
 
 ## [1.1.0] - 2026-09-26
 
@@ -59,7 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Preview overlay: party seats × hotbars and which source is driving highlights (close with ×).
 - Per-rule outline colors (Near/Far World red, Dynamis stacks purple, Remaining yellow; reload resets to defaults).
 
-[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/exatrines/Goetia/releases/tag/v1.1.1
 [1.1.0]: https://github.com/exatrines/Goetia/releases/tag/v1.1.0
 [1.0.2]: https://github.com/exatrines/Goetia/releases/tag/v1.0.2
 [1.0.1]: https://github.com/exatrines/Goetia/releases/tag/v1.0.1
