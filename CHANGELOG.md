@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-10-19
+
+### Added
+
+- Settings Debug page: Copy JSON for HUD Action Bar visibility and coordinates, plugin settings, and module options.
+
+### Fixed
+
+- Hotbar frames also follow the on-screen bar that is currently showing the chosen hotbar set, and still draw when the addon root is not flagged visible.
+
 ## [1.1.1] - 2026-10-18
 
 ### Fixed
@@ -55,7 +65,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Preview overlay: party seats × hotbars and which source is driving highlights (close with ×).
 - Per-rule outline colors (Near/Far World red, Dynamis stacks purple, Remaining yellow; reload resets to defaults).
 
-[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/exatrines/Goetia/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/exatrines/Goetia/releases/tag/v1.1.2
 [1.1.1]: https://github.com/exatrines/Goetia/releases/tag/v1.1.1
 [1.1.0]: https://github.com/exatrines/Goetia/releases/tag/v1.1.0
 [1.0.2]: https://github.com/exatrines/Goetia/releases/tag/v1.0.2

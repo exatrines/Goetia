@@ -3,17 +3,19 @@ using MirageUI.Layout;
 
 namespace Goetia.UI;
 
-/// <summary>Settings: hotbars and highlight style.</summary>
+/// <summary>Settings: hotbars, highlight style, and HUD debug.</summary>
 internal sealed class PluginSettingsWindow : Window
 {
     private const string PageHotbars = "page:hotbars";
     private const string PageStyle = "page:style";
+    private const string PageDebug = "page:debug";
     private static readonly Vector2 DefaultSize = new(780, 560);
     private const float SettingsControlWidth = 96f;
 
     private ImRaii.ColorDisposable? _themeScope;
     private string _selectedId = PageHotbars;
     private string _sidebarSearch = string.Empty;
+    private long _debugJsonCopiedUntil;
 
     public PluginSettingsWindow()
         : base(
@@ -46,7 +48,7 @@ internal sealed class PluginSettingsWindow : Window
 
     public override void Draw()
     {
-        if (_selectedId is not (PageHotbars or PageStyle))
+        if (_selectedId is not (PageHotbars or PageStyle or PageDebug))
             _selectedId = PageHotbars;
 
         var state = CreateTwoColumnState();
@@ -77,6 +79,11 @@ internal sealed class PluginSettingsWindow : Window
                     Id = PageStyle,
                     Label = "Style",
                 },
+                new MirageTwoColumnEntry
+                {
+                    Id = PageDebug,
+                    Label = "Debug",
+                },
             ],
             SelectedId = _selectedId,
             OnSelectionChanged = id =>
@@ -89,10 +96,18 @@ internal sealed class PluginSettingsWindow : Window
 
     private void DrawMainContent()
     {
-        if (_selectedId == PageStyle)
-            DrawStyle();
-        else
-            DrawHotbars();
+        switch (_selectedId)
+        {
+            case PageStyle:
+                DrawStyle();
+                break;
+            case PageDebug:
+                DrawDebug();
+                break;
+            default:
+                DrawHotbars();
+                break;
+        }
     }
 
     private static void DrawHotbars()
@@ -102,7 +117,7 @@ internal sealed class PluginSettingsWindow : Window
             "Map Attack / Bind / Stop hotbars to party order. Place /mk macros yourself; Goetia never auto-marks.",
             MirageUi.Color.Secondary);
         MirageUi.Text(
-            "Each normal hotbar is one row of 12 slots. Assign three bars and map eight consecutive slots to party order <1>–<8>.",
+            "Each normal hotbar is one row of 12 slots. Assign three bars and map eight consecutive slots to party order <1>–<8>. Highlights draw on that HUD Action Bar and on any on-screen bar currently showing that hotbar set.",
             MirageUi.Color.Secondary);
 
         ImGui.Dummy(new Vector2(0f, ImGui.GetStyle().ItemSpacing.Y));
@@ -138,6 +153,27 @@ internal sealed class PluginSettingsWindow : Window
         {
             C.HighlightThickness = thickness;
             C.Save();
+        }
+    }
+
+    private void DrawDebug()
+    {
+        MirageUi.Header("Debug");
+        MirageUi.Text(
+            "Copy HUD Action Bar, plugin settings, and module options as JSON.",
+            MirageUi.Color.Secondary);
+
+        ImGui.Dummy(new Vector2(0f, ImGui.GetStyle().ItemSpacing.Y));
+        if (MirageUi.SecondaryButton("Copy JSON"))
+        {
+            ImGui.SetClipboardText(HotbarDebugSnapshot.BuildJson());
+            _debugJsonCopiedUntil = Environment.TickCount64 + 2000;
+        }
+
+        if (Environment.TickCount64 < _debugJsonCopiedUntil)
+        {
+            ImGui.SameLine();
+            MirageUi.Text("Copied.", MirageUi.Color.Secondary);
         }
     }
 

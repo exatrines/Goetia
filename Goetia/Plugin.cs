@@ -78,7 +78,7 @@ public sealed class Plugin : IDalamudPlugin
 
         commandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Toggle Goetia. /goetia settings for Hotbars & Style.",
+            HelpMessage = "Toggle Goetia. /goetia settings for Hotbars, Style, and Debug.",
         });
 
         framework.Update += OnFrameworkUpdate;
